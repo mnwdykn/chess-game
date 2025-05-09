@@ -1,11 +1,14 @@
 // src/pages/GamePage.jsx
-import React from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function GamePage() {
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get("mode"); // "bot" または "local"
+
   return (
     <div>
       <h1>対局画面</h1>
-      <p>ここにチェス盤や操作パネルを表示します。</p>
+      <p>対戦モード: {mode}</p>
     </div>
   );
 }
