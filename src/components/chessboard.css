@@ -1,0 +1,49 @@
+/* src/components/Chessboard.css */
+.chessboard {
+    display: grid;
+    grid-template-rows: repeat(8, 1fr); /* Defines 8 rows of equal height */
+    width: 400px; /* Adjust as needed */
+    height: 400px; /* Adjust as needed */
+    border: 2px solid #333;
+    margin: 20px auto; /* Center the board */
+  }
+  
+  .rank {
+    display: flex; /* Arrange squares horizontally within a rank */
+  }
+  
+  .square {
+    width: 50px; /* 400px / 8 squares */
+    height: 50px; /* 400px / 8 squares */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px; /* Adjust piece size */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  }
+  
+  .light {
+    background-color: #f0d9b5; /* Example light square color */
+  }
+  
+  .dark {
+    background-color: #b58863; /* Example dark square color */
+  }
+  
+  .piece {
+    cursor: grab; /* Indicate pieces can be moved */
+  }
+  
+  /* Optional: Add some basic styling for the GamePage itself */
+  /* src/pages/GamePage.css */
+  .game-page {
+    text-align: center;
+    font-family: sans-serif;
+  }
+  
+  .board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
