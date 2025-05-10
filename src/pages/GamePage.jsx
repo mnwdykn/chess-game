@@ -1,41 +1,59 @@
 // src/pages/GamePage.jsx
-import React, { useState } from 'react'; // useStateをインポート
-import { useSearchParams } from 'react-router-dom';
-import { Chessboard } from 'react-chessboard'; // react-chessboardからChessboardをインポート
+import React from "react";
+import { useSearchParams } from "react-router-dom";
 import ChessBoard from "../components/chessboard";
-
-// import './GamePage.css'; // もし前のステップで作成していたら、これは不要になるかもしれません
+import useChess from "../hooks/useChess"; // useChessフックのインポート
 
 export default function GamePage() {
   const [searchParams] = useSearchParams();
-  const mode = searchParams.get('mode'); // "bot" または "local"
+  const mode = searchParams.get("mode"); // "bot" または "local" モード取得
 
-  // チェス盤の初期状態 (FEN記法)
-  // 'startpos' でも可 (Chessboardライブラリが対応していれば)
-  const [gamePosition, setGamePosition] = useState('start');
+  // useChessフックからゲーム状態と操作APIを取得
+  const { fen, move, isGameOver, resetGame, history } = useChess();
 
-  // react-chessboard は駒の動きをハンドルする関数を props として受け取ることができます
-  // ここでは基本的な表示のみ行い、駒の動きのロジックはまだ実装していません
+  /**
+   * 駒を動かした際に呼び出される関数
+   * 合法手でない場合、false を返して移動を無効化
+   */
   function onDrop(sourceSquare, targetSquare, piece) {
-    // TODO: ここに駒が動かされたときのロジックを実装します
-    // 例: chess.jsライブラリと連携して駒の動きを検証し、状態を更新する
-    console.log(`Piece ${piece} moved from ${sourceSquare} to ${targetSquare}`);
-    // gamePosition を更新するロジックが必要になります
-    // この例ではまだ盤面は更新されません
-    return true; // とりあえず常に移動を許可する (実際には検証が必要)
+    // move() は合法手の場合は move オブジェクトを返し、非合法手では null を返す
+    const result = move(sourceSquare, targetSquare);
+
+    // 非合法手は移動しない
+    if (!result) {
+      console.log(
+        `非合法手: ${piece} moved from ${sourceSquare} to ${targetSquare}`
+      );
+      return false; // 非合法手をキャンセル
+    }
+
+    console.log(
+      `合法手: ${piece} moved from ${sourceSquare} to ${targetSquare}`
+    );
+
+    // ゲーム終了時の処理
+    if (isGameOver()) {
+      console.log("ゲーム終了!");
+    }
+
+    return true; // 合法手の場合、盤面を更新
   }
 
-  const boardWidth = 400; // ★ここで boardWidth を 400 と定義しています
+  const boardWidth = 400; // チェス盤の幅を400pxに設定
 
   return (
-    <div className="game-page" style={{ textAlign: 'center', fontFamily: 'sans-serif' }}>
+    <div
+      className="game-page"
+      style={{ textAlign: "center", fontFamily: "sans-serif" }}
+    >
       <h1>対局画面</h1>
       <p>対戦モード: {mode}</p>
       <div className="board-container">
-        <ChessBoard 
-          position={gamePosition}
-          onPieceDrop={onDrop}
-          boardWidth={boardWidth}
+        {/* ChessBoardコンポーネントにfen（盤面状態）を渡して盤面を描画 */}
+        <ChessBoard
+          position={fen} // 現在の盤面状態（FEN形式）を渡す
+          onPieceDrop={onDrop} // 駒がドロップされた時の処理
+          boardWidth={boardWidth} // 盤面の幅設定
         />
       </div>
       {/* 将来的にはここに対局操作ボタンや棋譜表示などを追加できます */}
