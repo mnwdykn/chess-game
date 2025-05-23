@@ -86,5 +86,6 @@ export default function useChess() {
     getLegalMoves, // 合法手の取得
     isGameOver, // ゲーム終了の判定
     resetGame, // ゲームのリセット
+    chess: chessRef.current, // chessインスタンスを公開
   };
 }
