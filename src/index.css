@@ -1,0 +1,12 @@
+/* src/index.css または src/App.css */
+
+/* v4 の記述（削除） */
+/* @import "tailwindcss"; */
+/* @source files("./src/pages/AnalysisPage.jsx"); */
+
+/* v3 の記述（追加） */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 必要に応じてカスタムスタイルを追加 */

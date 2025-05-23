@@ -19,7 +19,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <h1>ChessMateへようこそ</h1>
+      <h1 className={"text-4xl font-bold my-6"}>ChessMateへようこそ</h1>
       <p>プレイモードを選んでください</p>
       <button onClick={handleBotGame}>Botと対戦</button>
       <button onClick={handleLocalGame}>ローカル対戦</button>
